@@ -1,0 +1,6 @@
+.git
+.gitignore
+tests
+node_modules
+*.md
+!README.md
