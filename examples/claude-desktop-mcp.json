@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "affixio": {
+      "command": "npx",
+      "args": ["-y", "@affixio/mcp"],
+      "env": {
+        "AFFIX_MCP_HOME": "${HOME}/.affix-mcp",
+        "AFFIX_API_KEY": "local_operator",
+        "AFFIX_MCP_ALLOWED_TOOLS": "",
+        "AFFIX_MCP_MAX_AMOUNT": "",
+        "AFFIX_MCP_CURRENCY": "GBP"
+      }
+    }
+  }
+}

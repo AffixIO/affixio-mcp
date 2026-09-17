@@ -1,0 +1,6 @@
+dist
+node_modules
+.affix-mcp-test
+tmp
+*.log
+.DS_Store

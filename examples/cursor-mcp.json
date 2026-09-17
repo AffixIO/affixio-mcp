@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "affixio": {
+      "command": "npx",
+      "args": ["-y", "@affixio/mcp"],
+      "env": {
+        "AFFIX_MCP_HOME": "${HOME}/.affix-mcp",
+        "AFFIX_MCP_ALLOWED_TOOLS": "payments.create,crm.lookupCustomer",
+        "AFFIX_MCP_MAX_AMOUNT": "500",
+        "AFFIX_MCP_CURRENCY": "GBP"
+      }
+    }
+  }
+}

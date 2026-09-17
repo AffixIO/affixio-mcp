@@ -1,0 +1,49 @@
+{
+  "name": "@affixio/mcp",
+  "version": "0.1.0",
+  "description": "Local stdio MCP server that wraps the affixio SDK. Signed yes/no attestations that an action happened on the host. PII never leaves the host.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "bin": {
+    "affixio-mcp": "./src/cli.js"
+  },
+  "scripts": {
+    "start": "node src/cli.js",
+    "probe": "node src/cli.js probe",
+    "test": "node --test tests/"
+  },
+  "dependencies": {
+    "affixio": "^1.3.3"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AffixIO/affixio-mcp.git"
+  },
+  "homepage": "https://github.com/AffixIO/affixio-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/AffixIO/affixio-mcp/issues"
+  },
+  "keywords": [
+    "affixio",
+    "mcp",
+    "model-context-protocol",
+    "attestation",
+    "agent-trust",
+    "tool-gate",
+    "local-first",
+    "post-quantum",
+    "ml-dsa"
+  ],
+  "files": [
+    "src",
+    "examples",
+    "README.md",
+    "LICENSE"
+  ]
+}
