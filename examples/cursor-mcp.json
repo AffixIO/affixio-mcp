@@ -2,7 +2,7 @@
   "mcpServers": {
     "affixio": {
       "command": "npx",
-      "args": ["-y", "@affixio/mcp"],
+      "args": ["-y", "@affixio/mcp@0.1.0"],
       "env": {
         "AFFIX_MCP_HOME": "${HOME}/.affix-mcp",
         "AFFIX_MCP_ALLOWED_TOOLS": "payments.create,crm.lookupCustomer",

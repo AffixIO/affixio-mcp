@@ -4,16 +4,16 @@ Local stdio MCP server that wraps the affixio SDK. It gives agents a signed yes 
 
 The SDK stays as it is: install with npm i affixio. This package only adds a local MCP front end for catalog listings and platform wraps.
 
-Run it with npx @affixio/mcp. PII never leaves the host: tool arguments are hashed, never stored, and proving runs offline on the machine.
+Run it with npx @affixio/mcp@0.1.0. PII never leaves the host: tool arguments are hashed, never stored, and proving runs offline on the machine.
 
 ## Install
 
-    npm i -g @affixio/mcp
+    npm i -g @affixio/mcp@0.1.0
     affixio-mcp
 
 Or without installing:
 
-    npx -y @affixio/mcp
+    npx -y @affixio/mcp@0.1.0
 
 Check it works:
 
@@ -27,7 +27,7 @@ Claude Desktop config file, Examples dir has ready files:
       "mcpServers": {
         "affixio": {
           "command": "npx",
-          "args": ["-y", "@affixio/mcp"],
+          "args": ["-y", "@affixio/mcp@0.1.0"],
           "env": {
             "AFFIX_API_KEY": "local_operator",
             "AFFIX_MCP_HOME": "${HOME}/.affix-mcp"
