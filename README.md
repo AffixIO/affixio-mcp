@@ -1,5 +1,30 @@
 # Affixio MCP
 
+[Banner Image / Diagram]
+[Badges: npm version | license | MCP Compatible | 100% Local | No PII]
+
+# AffixIO MCP — The offline gate for agentic tool calls
+
+> One line: Stop agents spending money, leaking keys, or calling unknown tools. Verifies locally, signs with ML-DSA-65.
+
+[Animated GIF: 10sec of npx @affixio/mcp probe -> allow/deny]
+
+## Why you need this
+Agent called `transfer_funds` with $50k? Agent tried to use `sk_live_`? This sits between the agent and the tool.
+
+## How it works in 3 seconds
+[Diagram: Agent -> affixio-mcp gate_tool_call -> Allow/Deny + Signed Attestation -> Real Tool]
+
+## 30-second install
+npm i -g @affixio/mcp ...
+
+## What you get (vs raw MCP)
+| Feature | Without | With AffixIO |
+| ... |
+
+## Tools: only 3, and they stay local
+...
+
 Local stdio MCP server that wraps the affixio SDK. It gives agents a signed yes or no record that an action happened on the host.
 
 The SDK stays as it is: install with npm i affixio. This package only adds a local MCP front end for catalog listings and platform wraps.
