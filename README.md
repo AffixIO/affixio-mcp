@@ -1,5 +1,7 @@
 # Affixio MCP
 
+[![ToolSDK MCP Registry](https://badges.toolsdk.ai/badge/@affixio/mcp)](https://toolsdk-ai.github.io/toolsdk-mcp-registry/#%40affixio%2Fmcp)
+
 Local stdio MCP server that wraps the affixio SDK. It gives agents a signed yes or no record that an action happened on the host.
 
 The SDK stays as it is: install with npm i affixio. This package only adds a local MCP front end for catalog listings and platform wraps.
