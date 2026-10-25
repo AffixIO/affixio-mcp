@@ -72,3 +72,29 @@ Local first. Proving runs offline via the affixio SDK in HMAC mode, signed ML-DS
 ## License
 
 Apache-2.0. See LICENSE.
+
+## Grok Build plugin
+
+This repository can be installed from the xAI Plugin Marketplace as **AffixIO Tool Gate**. It runs as a local stdio MCP server and exposes only these three tools:
+
+- `gate_tool_call`: evaluates one named tool call against the configured local allowlist, amount cap, and blocked patterns, then returns an allow or deny result before the caller executes the tool.
+- `attest_action`: creates a local action attestation.
+- `verify_action`: verifies an attestation supplied by the caller.
+
+### Data handling and boundaries
+
+The plugin has no hooks, background tasks, browser automation, account access, or automatic agent enrolment. It does not read shell history, SSH keys, project `.env` files, or other credentials. The gate stores a SHA-256 digest of supplied tool arguments in its decision record rather than raw arguments.
+
+By default, all proof and decision state is stored locally in `~/.affix-mcp`. The local SDK may make a licence heartbeat to `https://api.affix-io.com`; it does not send raw tool arguments for this gate. An operator may explicitly set `AFFIX_API_BASE` to select a different AffixIO endpoint and should assess that endpoint before use. The MCP process needs Node.js 20+ and downloads the version-pinned public npm package `@affixio/mcp@0.1.0` when first launched through `npx`.
+
+### Grok Build example
+
+Configure a narrow policy before starting Grok Build:
+
+```bash
+export AFFIX_MCP_ALLOWED_TOOLS="calendar.create,github.create_issue"
+export AFFIX_MCP_MAX_AMOUNT="0"
+export AFFIX_MCP_BLOCKED_PATTERNS="sk_live_,AKIA,PRIVATE KEY"
+```
+
+Ask `gate_tool_call` before a privileged tool call. If it returns `deny`, do not run that call. A Grok Build workflow remains responsible for enforcing the result: the MCP server cannot prevent an unrelated tool from running on its own.

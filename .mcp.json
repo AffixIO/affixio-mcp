@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "affixio-tool-gate": {
+      "command": "npx",
+      "args": ["-y", "@affixio/mcp@0.1.0"],
+      "note": "Local stdio MCP server. It exposes attest_action, verify_action, and gate_tool_call. No raw tool arguments are persisted by the gate; it records a SHA-256 digest. State is stored under ~/.affix-mcp. The underlying SDK can make a licence heartbeat to api.affix-io.com; it does not send the raw tool arguments used by the gate."
+    }
+  }
+}

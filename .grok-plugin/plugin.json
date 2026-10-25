@@ -1,0 +1,20 @@
+{
+  "name": "affixio-tool-gate",
+  "version": "0.1.0",
+  "description": "Local-first MCP policy gate for sensitive agent tool calls. Returns an allow or deny decision and can create locally stored attestations.",
+  "author": {
+    "name": "AffixIO",
+    "url": "https://github.com/AffixIO"
+  },
+  "repository": "https://github.com/AffixIO/affixio-mcp",
+  "homepage": "https://github.com/AffixIO/affixio-mcp#readme",
+  "license": "Apache-2.0",
+  "keywords": [
+    "affixio",
+    "tool-gate",
+    "agent-policy",
+    "mcp",
+    "attestation",
+    "local-first"
+  ]
+}
