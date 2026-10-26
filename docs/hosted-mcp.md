@@ -34,9 +34,11 @@ The hosted service processes submitted tool inputs remotely. Submit only the dat
 
 ## Validation, 26 October 2026
 
-The updated production source compiled successfully. Ten isolated tests using the production MCP/OAuth modules, synthetic credentials and a mocked verification upstream passed: challenges, initialization/schema discovery, write-scope denial, read calls, denied/missing/conflicting guard decisions, explicit approval and token revocation. External requests confirmed the public missing/invalid-token challenges and OAuth/resource discovery.
+The updated production source compiled successfully. Eleven isolated tests using the production MCP/OAuth modules, synthetic credentials and a mocked verification upstream passed: challenges, initialization/schema discovery, write-scope denial, read calls, denied/missing/conflicting guard decisions, explicit approval, supplied-credential preservation and token revocation. External requests confirmed the public missing/invalid-token challenges and OAuth/resource discovery.
 
-These checks do not constitute a completed browser consent/token-exchange test or a successful cryptographic verification of a real proof. Do not interpret them as certification for every MCP client.
+A live external test also completed Studio consent with read-only scope, S256 PKCE token exchange, authenticated initialization, discovery of 102 tool schemas, and an authenticated health call. A write operation was rejected for missing write scope before proof verification. The test token was revoked, and a subsequent request returned HTTP 401. The underlying API key was not changed.
+
+These checks do not constitute successful cryptographic verification of a real proof or certification for every MCP client. A client-specific Cline installation was not tested.
 
 ## Links
 
