@@ -1,5 +1,9 @@
 # Affixio MCP
 
+## Hosted AffixIO verification server
+
+For OAuth access to proof verification, permission checks, revocation status and Merkle audit evidence, connect to **https://www.affix-io.com/mcp/**. See the [hosted install guide](docs/hosted-mcp.md) and [directory profile](docs/directory-profile.md). The hosted service and the local stdio package below have different tools and authentication requirements.
+
 [![ToolSDK MCP Registry](https://badges.toolsdk.ai/badge/@affixio/mcp)](https://toolsdk-ai.github.io/toolsdk-mcp-registry/#%40affixio%2Fmcp)
 
 Local stdio MCP server that wraps the affixio SDK. It gives agents a signed yes or no record that an action happened on the host.
