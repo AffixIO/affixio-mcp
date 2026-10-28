@@ -3,6 +3,7 @@ import { stdin as input, stdout as output } from "node:process";
 import { attestAction, verifyAction } from "./attest.js";
 import { loadConfig } from "./config.js";
 import { describePolicy, gateToolCall } from "./gate.js";
+import { gateEvidenceAction } from "./evidence-gate.js";
 
 const SERVER_NAME = "affixio-mcp";
 const SERVER_VERSION = "0.1.0";
@@ -55,6 +56,25 @@ const TOOLS = [
       },
       required: ["tool"]
     }
+  },
+  {
+    name: "gate_evidence_action",
+    description: "Fail-closed scoped gate for an evidence-producing or evidence-consuming action. It returns signed allow or deny evidence with hashes only: never source documents, citations or results.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        action: { type: "string", description: "Action identifier, for example legal.research" },
+        agent_id: { type: "string", description: "Pseudonymous agent identifier" },
+        resource: { type: "string", description: "Explicit resource scope, for example matter:123" },
+        jurisdiction: { type: "string", description: "Jurisdiction required by policy" },
+        purpose: { type: "string", description: "Declared purpose required by policy" },
+        operation: { type: "string", description: "Requested operation, for example research or export" },
+        request: { type: "object", description: "Host-side request context. Only a digest appears in the result." },
+        evidence: { type: "object", description: "Optional result and citations. Only digests and citation count appear in the result." },
+        policy: { type: "object", description: "Explicit policy containing id, agents, resources, jurisdictions, purposes and operations allow-lists; may also include revoked_agents and revoked_resources." }
+      },
+      required: ["action", "resource", "jurisdiction", "purpose", "operation", "policy"]
+    }
   }
 ];
 
@@ -82,6 +102,10 @@ export async function dispatchTool(name, args, config) {
   }
   if (name === "gate_tool_call") {
     const decision = await gateToolCall(a, config);
+    return textResult({ ok: true, decision });
+  }
+  if (name === "gate_evidence_action") {
+    const decision = await gateEvidenceAction(a, config);
     return textResult({ ok: true, decision });
   }
   throw new Error("unknown_tool:" + String(name));

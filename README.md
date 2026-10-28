@@ -51,6 +51,7 @@ Only three tools ship. No identity, age, KYC, MRZ, passport, licence, vehicle, a
 - attest_action: action plus optional outcome, context hash, policy id. Returns a signed action attestation with timestamp, action id, ML-DSA-65 signature, and proof id.
 - verify_action: attestation or receipt in, valid true or false plus reason out.
 - gate_tool_call: tool name plus args hash or summary plus policy in, allow or deny plus signed decision out. Call before privileged agent tool calls.
+- gate_evidence_action: require an explicit agent, resource, jurisdiction, purpose and operation policy before an evidence-backed action. Returns signed allow or deny evidence with request/result/citation digests only. See [evidence-bound actions](docs/evidence-bound-actions.md).
 
 ## Env config
 

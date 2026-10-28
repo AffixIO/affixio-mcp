@@ -82,7 +82,7 @@ describe("stdio protocol", () => {
     assert.equal(init.result.serverInfo.name, "affixio-mcp");
     const list = await handleRequest({ jsonrpc: "2.0", id: 2, method: "tools/list", params: {} }, config);
     const names = list.result.tools.map((t) => t.name).sort();
-    assert.deepEqual(names, ["attest_action", "gate_tool_call", "verify_action"]);
+    assert.deepEqual(names, ["attest_action", "gate_evidence_action", "gate_tool_call", "verify_action"]);
   });
 
   it("serves tools/call for attest_action", async () => {
