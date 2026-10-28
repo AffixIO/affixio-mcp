@@ -1,0 +1,11 @@
+{
+  "qm-research-v1": {
+    "agents": ["agent:qm-research"],
+    "resources": ["matter:demo-42"],
+    "jurisdictions": ["GB-ENG"],
+    "purposes": ["advice-preparation"],
+    "operations": ["research"],
+    "revoked_agents": [],
+    "revoked_resources": []
+  }
+}

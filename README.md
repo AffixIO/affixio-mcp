@@ -53,6 +53,8 @@ Only three tools ship. No identity, age, KYC, MRZ, passport, licence, vehicle, a
 - gate_tool_call: tool name plus args hash or summary plus policy in, allow or deny plus signed decision out. Call before privileged agent tool calls.
 - gate_evidence_action: require an explicit agent, resource, jurisdiction, purpose and operation policy before an evidence-backed action. Returns signed allow or deny evidence with request/result/citation digests only. See [evidence-bound actions](docs/evidence-bound-actions.md).
 
+For a QM deployment template that keeps policies and the service identity under operator control, see [QM integration](docs/qm-integration.md).
+
 ## Env config
 
 - AFFIX_API_KEY: licence key, defaults to local_operator for offline use

@@ -18,6 +18,8 @@ function config(home) {
     currency: "GBP",
     blockedPatterns: ["PRIVATE KEY"],
     defaultAgentId: "agent:legal-research",
+    allowInlineEvidencePolicy: true,
+    lockAgentId: false,
     store: {
       proofs: join(home, "proofs.json"), queue: join(home, "offline-queue.json"), licence: join(home, "licence.json"),
       stats: join(home, "stats.json"), spend: join(home, "spend"), codeUses: join(home, "code-uses.json"),
@@ -113,6 +115,28 @@ test("serves the scoped evidence gate through MCP", async () => {
     const body = JSON.parse(result.content[0].text);
     assert.equal(body.ok, true);
     assert.equal(body.decision.decision, "allow");
+  } finally {
+    rmSync(home, { recursive: true, force: true });
+  }
+});
+
+test("rejects caller-supplied policies unless the operator explicitly enables them", async () => {
+  const home = mkdtempSync(join(tmpdir(), "affixio-evidence-gate-"));
+  try {
+    const locked = { ...config(home), allowInlineEvidencePolicy: false, evidencePolicies: null };
+    await assert.rejects(() => gateEvidenceAction(input(), locked), /evidence_policy_not_configured/);
+  } finally {
+    rmSync(home, { recursive: true, force: true });
+  }
+});
+
+test("uses an operator-owned policy and rejects agent identity spoofing", async () => {
+  const home = mkdtempSync(join(tmpdir(), "affixio-evidence-gate-"));
+  try {
+    const configured = { ...config(home), allowInlineEvidencePolicy: false, lockAgentId: true, evidencePolicies: { "legal-research-v1": input().policy } };
+    const approved = await gateEvidenceAction({ ...input(), policy_id: "legal-research-v1", policy: undefined, agent_id: "agent:legal-research" }, configured);
+    assert.equal(approved.decision, "allow");
+    await assert.rejects(() => gateEvidenceAction({ ...input(), policy_id: "legal-research-v1", policy: undefined, agent_id: "agent:other" }, configured), /agent_id_managed_by_operator/);
   } finally {
     rmSync(home, { recursive: true, force: true });
   }

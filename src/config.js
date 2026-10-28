@@ -1,5 +1,6 @@
 import { homedir } from "node:os";
 import { join } from "node:path";
+import { readFileSync } from "node:fs";
 
 function csv(value) {
   return String(value || "")
@@ -12,6 +13,18 @@ function numOrNull(value) {
   if (value === undefined || value === null || value === "") return null;
   const n = Number(value);
   return Number.isFinite(n) && n >= 0 ? n : null;
+}
+
+function configuredPolicies(file) {
+  if (!file) return null;
+  let parsed;
+  try {
+    parsed = JSON.parse(readFileSync(file, "utf8"));
+  } catch (error) {
+    throw new Error(`evidence_policy_file_unavailable:${error instanceof Error ? error.message : "unknown"}`);
+  }
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) throw new Error("evidence_policy_file_must_be_an_object");
+  return parsed;
 }
 
 export function loadConfig(env = process.env) {
@@ -32,6 +45,9 @@ export function loadConfig(env = process.env) {
         ? ["sk_live_", "AKIA", "PRIVATE KEY"]
         : csv(env.AFFIX_MCP_BLOCKED_PATTERNS),
     defaultAgentId: env.AFFIX_MCP_AGENT_ID || "agent:local",
+    evidencePolicies: configuredPolicies(env.AFFIX_MCP_EVIDENCE_POLICIES_FILE),
+    allowInlineEvidencePolicy: env.AFFIX_MCP_ALLOW_INLINE_EVIDENCE_POLICY === "true",
+    lockAgentId: env.AFFIX_MCP_LOCK_AGENT_ID === "true",
     store: {
       proofs: join(home, "proofs.json"),
       queue: join(home, "offline-queue.json"),

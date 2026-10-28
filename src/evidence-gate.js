@@ -17,9 +17,11 @@ function stringList(value, field) {
   return [...new Set(value.map((item) => text(item, field)))];
 }
 
-function policyFrom(input) {
-  const raw = input.policy;
-  if (!raw || typeof raw !== "object" || Array.isArray(raw)) throw new Error("policy_required");
+function policyFrom(input, config) {
+  const requestedId = text(input.policy_id ?? input.policy?.id, "policy_id");
+  const configured = config.evidencePolicies?.[requestedId];
+  const raw = configured ? { ...configured, id: requestedId } : (config.allowInlineEvidencePolicy ? input.policy : null);
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) throw new Error("evidence_policy_not_configured");
   return {
     id: text(raw.id ?? input.policy_id, "policy_id"),
     agents: stringList(raw.agents, "policy_agents"),
@@ -74,12 +76,14 @@ async function deny(reason, action, agentId, policy, requestDigest, evidence, co
  */
 export async function gateEvidenceAction(input = {}, config = loadConfig()) {
   const action = text(input.action, "action");
-  const agentId = text(input.agent_id ?? input.agentId ?? config.defaultAgentId, "agent_id");
+  const suppliedAgentId = input.agent_id ?? input.agentId;
+  if (config.lockAgentId && suppliedAgentId !== undefined && String(suppliedAgentId) !== config.defaultAgentId) throw new Error("agent_id_managed_by_operator");
+  const agentId = text(config.lockAgentId ? config.defaultAgentId : (suppliedAgentId ?? config.defaultAgentId), "agent_id");
   const resource = text(input.resource, "resource", 512);
   const jurisdiction = text(input.jurisdiction, "jurisdiction");
   const purpose = text(input.purpose, "purpose");
   const operation = text(input.operation, "operation");
-  const policy = policyFrom(input);
+  const policy = policyFrom(input, config);
   const requestDigest = digest({ action, resource, jurisdiction, purpose, operation, request: input.request ?? null });
   const evidence = {
     digest: digest(input.evidence ?? null),

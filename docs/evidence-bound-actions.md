@@ -4,6 +4,8 @@
 
 Use it immediately before an agent performs a source-backed action, and again before a more sensitive follow-on action such as export. A policy must explicitly allow the agent, resource, jurisdiction, purpose and operation. A revoked agent or resource is denied before the action.
 
+For a deployed agent system, configure policies in an operator-controlled JSON file with `AFFIX_MCP_EVIDENCE_POLICIES_FILE`. Inline policy objects are rejected by default because an agent must not be able to authorise itself. Inline policies are available only when `AFFIX_MCP_ALLOW_INLINE_EVIDENCE_POLICY=true`, which is suitable for isolated development tests only. Set `AFFIX_MCP_LOCK_AGENT_ID=true` to reject a caller-supplied identity and use the configured service agent instead.
+
 The tool returns signed allow or deny evidence. It retains only SHA-256 digests of the request, result and citations in its decision output. It never returns, stores or republishes source documents, source text, citation text or generated answers. The calling application remains responsible for licence terms, source access controls, retention and enforcing the decision before it calls an external tool.
 
 ## Example
@@ -21,20 +23,11 @@ The tool returns signed allow or deny evidence. It retains only SHA-256 digests 
     "citations": ["provider-local-reference-1"],
     "result": { "host_local": true }
   },
-  "policy": {
-    "id": "legal-research-v1",
-    "agents": ["agent:casework-17"],
-    "resources": ["matter:acme-42"],
-    "jurisdictions": ["GB-ENG"],
-    "purposes": ["advice-preparation"],
-    "operations": ["research"],
-    "revoked_agents": [],
-    "revoked_resources": []
-  }
+  "policy_id": "legal-research-v1"
 }
 ```
 
-`export` is denied unless it is separately present in `operations`. This is deliberate: a research permission should not become an export permission.
+The operator-managed policy identified by `policy_id` defines the allowed agent, resource, jurisdiction, purpose and operations. `export` is denied unless it is separately present in that policy. This is deliberate: a research permission should not become an export permission.
 
 ## Boundaries
 
